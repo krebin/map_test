@@ -46,11 +46,21 @@ class MapScreen extends React.Component {
                         await MapboxGL.offlineManager.createPack({
                             name: 'offlinePack',
                             styleURL: 'mapbox://...',
-                            minZoom: 14,
+                            minZoom: 1,
                             maxZoom: 20,
-                            bounds: [[100, 100], [100, 100]]
+                            bounds: [[10, 10], [10, 10]]
                         }, progressListener, errorListener)}}
                     title={"Download Map"}
+                    style={{borderWidth: 1, borderColor: 'blue'}}
+                />
+                <Button
+                    onPress={async () =>
+                    {
+                        alert('offline map pack')
+                        const offlinePack = await MapboxGL.offlineManager.getPack('offlinePack')
+
+                    }}
+                    title={"Get offline pack"}
                     style={{borderWidth: 1, borderColor: 'blue'}}
                 />
                 <Mapbox.MapView
