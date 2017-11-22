@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, StyleSheet } from 'react-native';
 import { Icon, Header } from 'react-native-elements';
-import colors from '../../styles/colors';
+import colors from '../styles/colors';
 
 const styles = StyleSheet.create({
   label: {

@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import BaseExamplePropTypes from './BaseExamplePropTypes';
 import MapHeader from './MapHeader';
 
-import sheet from '../../styles/sheet';
-import colors from '../../styles/colors';
+import sheet from '../styles/sheet';
+import colors from '../styles/colors';
 
 class Page extends React.Component {
   static propTypes = {

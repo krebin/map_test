@@ -2,11 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-//import { isUndefined, isFunction } from './javascript/utils'
+import { isUndefined, isFunction } from './javascript/utils'
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
+import createOfflineRegion from './CreateOfflineRegion.js'
+import offlineManager from './javascript/modules/offline/offlineManager.js'
 const MapboxGL = NativeModules.MGLModule;
 
+//MapboxGL.offlineManager.setTileCountLimit(10000);
 Mapbox.setAccessToken('pk.eyJ1Ijoia3JlYmluIiwiYSI6ImNqOXRyN2NpNjAxbDUyeG9lcnVxNXV3aHYifQ.Co5xDA25ehe16YgaFk0t2w');
 
 class HomeScreen extends React.Component {
@@ -14,6 +17,7 @@ class HomeScreen extends React.Component {
         title: 'Welcome'
     };
     render() {
+        <offlineManager/>
         const { navigate } = this.props.navigation;
         return (
             <View>
@@ -39,17 +43,21 @@ class MapScreen extends React.Component {
                 <Button
                     onPress={async () =>
                     {
-                        alert('button pressed')
                         const progressListener = (offlineRegion, status) => console.log(offlineRegion, status);
                         const errorListener = (offlineRegion, err) => console.log(offlineRegion, err);
 
-                        await MapboxGL.offlineManager.createPack({
-                            name: 'offlinePack',
+                        const n = Math.random().toString();
+                        alert('button pressed' + n)
+
+                        let myObj = {
+                            name: n,
                             styleURL: 'mapbox://...',
-                            minZoom: 1,
+                            minZoom: 0,
                             maxZoom: 20,
-                            bounds: [[10, 10], [10, 10]]
-                        }, progressListener, errorListener)}}
+                            bounds: [[20, 20], [20, 20]]
+                        };
+                        //myObj[name] = Math.random().toString();
+                        await offlineManager.createPack( myObj, progressListener, errorListener)}}
                     title={"Download Map"}
                     style={{borderWidth: 1, borderColor: 'blue'}}
                 />

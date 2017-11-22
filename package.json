@@ -10,7 +10,7 @@
 		"@mapbox/geo-viewport": "^0.2.2",
 		"@mapbox/react-native-mapbox-gl": "^6.0.0",
 		"react": "16.0.0",
-		"react-native": "0.50.3",
+		"react-native": "^0.50.3",
 		"react-navigation": "^1.0.0-beta.19"
 	},
 	"devDependencies": {

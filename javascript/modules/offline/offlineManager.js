@@ -249,4 +249,5 @@ class OfflineManager {
 }
 
 const offlineManager = new OfflineManager();
-export default offlineManager;
+export default offlineManager
+module.exports = offlineManager;
