@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  containter: {
+  container: {
     borderRadius: 30,
     position: 'absolute',
     bottom: 16,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 class Bubble extends React.PureComponent {
   render () {
     return (
-      <View style={styles.containter}>
+      <View style={styles.container}>
         {this.props.children}
       </View>
     );
