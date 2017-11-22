@@ -150,6 +150,7 @@ import sheet from './styles/sheet';
 
 MapboxGL.offlineManager.setTileCountLimit(10000);
 const CENTER_COORD = [-117.161087, 32.751736];
+const CENTER_COORD_LONDON = [51.5074, 0.1278];
 const MAPBOX_VECTOR_TILE_SIZE = 512;
 
 const styless = StyleSheet.create({
@@ -202,9 +203,10 @@ class CreateOfflineRegion extends React.Component {
         MapboxGL.offlineManager.unsubscribe('test');
     }
 
+
     async onDidFinishLoadingStyle () {
         const { width, height } = Dimensions.get('window');
-        const bounds = geoViewport.bounds(CENTER_COORD, 12, [width, height], MAPBOX_VECTOR_TILE_SIZE);
+        const bounds = geoViewport.bounds(CENTER_COORD_LONDON, 12, [width, height], MAPBOX_VECTOR_TILE_SIZE);
 
         const options = {
             name: this.state.name,
@@ -260,7 +262,7 @@ class CreateOfflineRegion extends React.Component {
                     ref={(c) => this._map = c}
                     onPress={this.onPress}
                     onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
-                    centerCoordinate={CENTER_COORD}
+                    centerCoordinate={CENTER_COORD_LONDON}
                     style={sheet.matchParent} />
 
                 {this.state.name !== null ? (
