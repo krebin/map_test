@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, Dimensions, StyleSheet, Button } from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import geoViewport from '@mapbox/geo-viewport';
 
@@ -146,9 +146,11 @@ class CreateOfflineRegion extends React.Component {
                         </View>
                     </Bubble>
                 ) : null}
+                {this.props.children}
             </Page>
         );
     }
 }
 
 export default CreateOfflineRegion;
+module.exports = CreateOfflineRegion;
