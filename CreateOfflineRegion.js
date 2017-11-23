@@ -12,6 +12,9 @@ const CENTER_COORD = [-73.970895, 40.723279];
 const MAPBOX_VECTOR_TILE_SIZE = 512;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     percentageText: {
         padding: 8,
         textAlign: 'center',
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     },
 });
 
-class CreateOfflineRegion extends React.Component {
+export default class CreateOfflineRegion extends React.Component {
     static propTypes = {
         ...BaseExamplePropTypes,
     };
@@ -113,44 +116,42 @@ class CreateOfflineRegion extends React.Component {
 
     render () {
         return (
-            <Page {...this.props}>
-                <MapboxGL.MapView
-                    zoomLevel={10}
-                    ref={(c) => this._map = c}
-                    onPress={this.onPress}
-                    onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
-                    centerCoordinate={CENTER_COORD}
-                    style={sheet.matchParent} />
+            <View style={styles.container}>
+                    <MapboxGL.MapView
+                        zoomLevel={10}
+                        ref={(c) => this.map = c}
+                        onPress={this.onPress}
+                        onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
+                        centerCoordinate={CENTER_COORD}
+                        style={styles.container}/>
 
-                {this.state.name !== null ? (
-                    <Bubble>
-                        <View style={{ flex : 1 }}>
+                    {this.state.name !== null ? (
+                        <Bubble>
+                            <View style={{ flex : 1 }}>
 
-                            <Text style={styles.percentageText}>
-                                Offline pack {this.state.name} is at {this._formatPercent()}
-                            </Text>
+                                <Text style={styles.percentageText}>
+                                    Offline pack {this.state.name} is at {this._formatPercent()}
+                                </Text>
 
-                            <View style={styles.buttonCnt}>
-                                <TouchableOpacity onPress={this.onResume}>
-                                    <View style={styles.button}>
-                                        <Text style={styles.buttonTxt}>Resume</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                <View style={styles.buttonCnt}>
+                                    <TouchableOpacity onPress={this.onResume}>
+                                        <View style={styles.button}>
+                                            <Text style={styles.buttonTxt}>Resume</Text>
+                                        </View>
+                                    </TouchableOpacity>
 
-                                <TouchableOpacity onPress={this.onPause}>
-                                    <View style={styles.button}>
-                                        <Text style={styles.buttonTxt}>Pause</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                    <TouchableOpacity onPress={this.onPause}>
+                                        <View style={styles.button}>
+                                            <Text style={styles.buttonTxt}>Pause</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
-                    </Bubble>
-                ) : null}
-                {this.props.children}
-            </Page>
+                        </Bubble>
+                    ) : null}
+            </View>
         );
     }
 }
 
-export default CreateOfflineRegion;
-module.exports = CreateOfflineRegion;
+//module.exports = CreateOfflineRegion;

@@ -16,7 +16,6 @@ class HomeScreen extends React.Component {
         title: 'Welcome'
     };
     render() {
-        <offlineManager/>
         const { navigate } = this.props.navigation;
         return (
             <View>
@@ -24,10 +23,6 @@ class HomeScreen extends React.Component {
                 <Button
                     onPress={() => navigate('Map')}
                     title="Map"
-                />
-                <Button
-                    onPress={() => navigate('Map2')}
-                    title="Map2"
                 />
             </View>
         );
@@ -39,63 +34,10 @@ class MapScreen extends React.Component {
         title: 'Map',
     };
 
-
     render() {
         return (
-            <View style={styles.container}>
-                <Button
-                    onPress={async () =>
-                    {
-                        const progressListener = (offlineRegion, status) => console.log(offlineRegion, status);
-                        const errorListener = (offlineRegion, err) => console.log(offlineRegion, err);
-
-                        const n = Math.random().toString();
-                        alert('button pressed' + n)
-
-                        let myObj = {
-                            name: n,
-                            styleURL: 'mapbox://...',
-                            minZoom: 0,
-                            maxZoom: 20,
-                            bounds: [[20, 20], [20, 20]]
-                        };
-                        //myObj[name] = Math.random().toString();
-                        await offlineManager.createPack( myObj, progressListener, errorListener)}}
-                    title={"Download Map"}
-                    style={{borderWidth: 1, borderColor: 'blue'}}
-                />
-                <Button
-                    onPress={async () =>
-                    {
-                        alert('offline map pack')
-                        const offlinePack = await MapboxGL.offlineManager.getPack('offlinePack')
-
-                    }}
-                    title={"Get offline pack"}
-                    style={{borderWidth: 1, borderColor: 'blue'}}
-                />
-                <Mapbox.MapView
-                    styleURL={Mapbox.StyleURL.Basic}
-                    zoomLevel={15}
-                    centerCoordinate={[11.256, 43.770]}
-                    style={styles.container}>
-                </Mapbox.MapView>
-            </View>
-        );
-    }
-}
-
-class MapScreen2 extends React.Component {
-    static navigationOptions = {
-        title: 'Map2',
-    };
-
-
-    render() {
-        return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <CreateOfflineRegion/>
-                {this.props.children}
             </View>
         );
     }
@@ -117,7 +59,6 @@ const styles = StyleSheet.create({
 export const TestApp = StackNavigator({
     Home: { screen: HomeScreen },
     Map: { screen: MapScreen },
-    Map2: { screen: MapScreen2}
 });
 
 
