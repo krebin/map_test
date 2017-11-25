@@ -63,8 +63,7 @@ export default class CreateOfflineRegion extends React.Component {
     }
 
     async onDidFinishLoadingStyle () {
-        const { width, height } = Dimensions.get('window');
-        const bounds = geoViewport.bounds(CENTER_COORD, 12, [width, height], MAPBOX_VECTOR_TILE_SIZE);
+        const bounds = geoViewport.bounds(CENTER_COORD, 12, [1, 1], MAPBOX_VECTOR_TILE_SIZE);
 
         const options = {
             name: this.state.name,
@@ -115,14 +114,7 @@ export default class CreateOfflineRegion extends React.Component {
     render () {
         return (
             <View style={styles.container}>
-                    <MapboxGL.MapView
-                        zoomLevel={10}
-                        ref={(c) => this.map = c}
-                        onPress={this.onPress}
-                        onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
-                        centerCoordinate={CENTER_COORD}
-                        style={styles.container}/>
-
+                    onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
                     {this.state.name !== null ? (
                         <Bubble>
                             <View style={{ flex : 1 }}>
