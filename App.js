@@ -10,6 +10,7 @@ import { NativeModules, NativeEventEmitter } from 'react-native';
 import CreateOfflineRegion from './CreateOfflineRegion.js'
 
 Mapbox.setAccessToken('pk.eyJ1Ijoia3JlYmluIiwiYSI6ImNqOXRyN2NpNjAxbDUyeG9lcnVxNXV3aHYifQ.Co5xDA25ehe16YgaFk0t2w');
+MapboxGL.offlineManager.setTileCountLimit(100000);
 
 const Form = t.form.Form;
 
@@ -38,55 +39,73 @@ class HomeScreen extends React.Component {
 }
 
 class MapScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {filling: false};
+    }
+
     static navigationOptions = {
         title: 'Map',
     };
+
+    handleSubmit = () => {
+        this.setState(previousState => {
+            return { filling: !previousState.filling };
+        })}
 
     render() {
         const { navigate } = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
-                <Button
-                    onPress={() => navigate('Form')}
-                    title="Download Pack"
-                />
-                <Mapbox.MapView
-                    styleURL={Mapbox.StyleURL.Street}
-                    zoomLevel={15}
-                    centerCoordinate={[11.256, 43.770]}
-                    style={styles.container}>
-                </Mapbox.MapView>
+                {this.state.filling !== true ? (
+                    <View style = {{ flex:1 }}>
+                        <Button
+                            onPress={() =>
+                                        {
+                                            this.handleSubmit()
+                                        }
+                                    }
+                            title = "Download Pack"
+                        />
+                        <Mapbox.MapView
+                            styleURL={Mapbox.StyleURL.Street}
+                            zoomLevel={15}
+                            centerCoordinate={[11.256, 43.770]}
+                            style={styles.container}>
+                        </Mapbox.MapView>
+                    </View>
+                    ):(
+                        <View style = {{ flex:1 }}>
+                            <Form
+                                ref = {c => this._form = c}
+                                type = {Pack}
+                            />
+                            <Button
+                                title = "Download"
+                                onPress={() =>
+                                            {
+                                                this.handleSubmit()
+                                                const input = this._form.getValue();
+                                                const name = input.packName;
+                                                const longitude = input.longitude;
+                                                const latitude = input.latitude;
+                                                this.refs.create.createPack(name, longitude, latitude);
+                                            }
+                                        }
+                            />
+                            <Button
+                                title = "Cancel"
+                                onPress={() => this.handleSubmit()}
+                            />
+                        </View>)}
+                <View>
+                    <CreateOfflineRegion ref = "create"/>
+                </View>
             </View>
+
         );
     }
 }
-
-class FormScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Download Pack',
-    };
-
-    handleSubmit = () => {
-        const value = this._form.getValue(); // use that ref to get the form value
-        <CreateOfflineRegion/>
-    }
-
-    render() {
-        return (
-            <View>
-                <Form
-                    ref={c => this._form = c} // assign a ref
-                    type={Pack}
-                />
-                <Button
-                    title="Download"
-                    onPress={this.handleSubmit}
-                />
-            </View>
-        );
-    }
-}
-
 
 export default class App extends React.Component {
     render() {
@@ -103,7 +122,6 @@ const styles = StyleSheet.create({
 export const TestApp = StackNavigator({
     Home: { screen: HomeScreen },
     Map: { screen: MapScreen },
-    Form: { screen: FormScreen }
 });
 
 

@@ -572,7 +572,7 @@ class MapView extends React.Component {
         propName = 'onDidFinishRenderingMapFully';
         break;
       case MapboxGL.EventTypes.DidFinishLoadingStyle:
-        propName = 'onDidFinishLoadingStyle';
+        propName = 'createPack';
         break;
     }
 

@@ -8,8 +8,8 @@ import Page from './common/Page';
 import Bubble from './common/Bubble';
 import sheet from './styles/sheet';
 
-const CENTER_COORD = [-73.970895, 40.723279];
 const MAPBOX_VECTOR_TILE_SIZE = 512;
+MapboxGL.offlineManager.setTileCountLimit(1000000);
 
 const styles = StyleSheet.create({
     container: {
@@ -44,13 +44,13 @@ export default class CreateOfflineRegion extends React.Component {
         super(props);
 
         this.state = {
-            name: `test-${Date.now()}`,
+            name: null,
             percentage: 0,
             offlineRegion: null,
         };
 
         this.onDownloadProgress = this.onDownloadProgress.bind(this);
-        this.onDidFinishLoadingStyle = this.onDidFinishLoadingStyle.bind(this);
+        this.createPack = this.createPack.bind(this);
 
         this.onResume = this.onResume.bind(this);
         this.onPause = this.onPause.bind(this);
@@ -62,14 +62,15 @@ export default class CreateOfflineRegion extends React.Component {
         MapboxGL.offlineManager.unsubscribe('test');
     }
 
-    async onDidFinishLoadingStyle () {
-        const bounds = geoViewport.bounds(CENTER_COORD, 12, [1, 1], MAPBOX_VECTOR_TILE_SIZE);
+    async createPack (packName, long, lat) {
+        const COORDINATES = [lat, long];
+        const bounds = geoViewport.bounds(COORDINATES, 14, [1, 1], MAPBOX_VECTOR_TILE_SIZE);
 
         const options = {
-            name: this.state.name,
+            name: packName,
             styleURL: MapboxGL.StyleURL.Street,
             bounds: [[bounds[0], bounds[1]], [bounds[2], bounds[3]]],
-            minZoom: 10,
+            minZoom: 0,
             maxZoom: 20,
         };
 
@@ -108,17 +109,15 @@ export default class CreateOfflineRegion extends React.Component {
         if (!this.state.percentage) {
             return '0%';
         }
-        return `${(''+this.state.percentage).split('.')[0]}%`;
+        return `${(''+this.state.percentage)}%!`;
     }
 
     render () {
         return (
             <View style={styles.container}>
-                    onDidFinishLoadingMap={this.onDidFinishLoadingStyle}
                     {this.state.name !== null ? (
                         <Bubble>
                             <View style={{ flex : 1 }}>
-
                                 <Text style={styles.percentageText}>
                                     Offline pack {this.state.name} is at {this._formatPercent()}
                                 </Text>
