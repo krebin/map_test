@@ -59,10 +59,11 @@ export default class CreateOfflineRegion extends React.Component {
     componentWillUnmount () {
         // avoid setState warnings if we back out before we finishing downloading
         MapboxGL.offlineManager.deletePack(this.state.name);
-        MapboxGL.offlineManager.unsubscribe('test');
+        MapboxGL.offlineManager.unsubscribe(this.state.name);
     }
 
     async createPack (packName, long, lat) {
+        this.setState({name:packName});
         const COORDINATES = [lat, long];
         const bounds = geoViewport.bounds(COORDINATES, 14, [1, 1], MAPBOX_VECTOR_TILE_SIZE);
 
