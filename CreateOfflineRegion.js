@@ -38,9 +38,7 @@ const styles = StyleSheet.create({
 });
 
 export default class CreateOfflineRegion extends React.Component {
-    static propTypes = {
-        ...BaseExamplePropTypes,
-    };
+
 
     constructor (props) {
         super(props);
